@@ -7,8 +7,13 @@ public class Main {
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
-        String choiceContinueProgram = "yes";
+        String continueCalculate = "yes", addPreviousSum = "no";
         boolean shouldContinue = true;
+        double firstNum;
+
+        double secondNum;
+        char operator = ' ';
+        double sum = 0;
 
 
         System.out.println("""
@@ -18,94 +23,57 @@ public class Main {
                 """);
 
         do {
-            try {
-                if (choiceContinueProgram.equals("yes")) {
+                if (continueCalculate.equals("yes")) {
 
-                    double firstNum;
-                    double secondNum;
-                    char operator = ' ';
-//                    System.out.print("Would you like to reset sum or add or subtract from it? ('yes'/'no'): ");
-                    double sum = 0;
-
-                    firstNum = selectNumber(operator);
+                    if (addPreviousSum.equals("yes")){
+                        firstNum = sum;
+                    }
+                    else{
+                        firstNum = selectNumber(operator);
+                    }
                     operator = selectOperator();
                     secondNum = selectNumber(operator);
                     sum = makeCalculation(firstNum, secondNum, sum, operator);
+                    System.out.println("************************************************************************");
                     System.out.println(firstNum + " " + operator + " " + secondNum + " = " + sum);
+
+                    System.out.println("************************************************************************");
                     System.out.print("Do you wish to continue calculate? Type 'yes'/'no': ");
-                    choiceContinueProgram = scanner.nextLine();
-                    System.out.println("Do you wish to add sum to next addition or subtraction? Type 'yes'/'no': ");
-                    choiceContinueProgram = scanner.nextLine();
+                    continueCalculate = scanner.nextLine();
+//                    System.out.println(continueCalculate);
+                    if (continueCalculate.equals("yes")){
+                        System.out.println("************************************************************************");
+                        System.out.print("Do you wish to apply calculation to the result (" + sum + ")? Type 'yes'/'no': ");
+                        addPreviousSum = scanner.nextLine();
+                        System.out.println("************************************************************************");
+                    }
 
-
-//                    do {
-//                        try {
-//                            System.out.print("Enter the first number: ");
-//                            firstNum = scanner.nextDouble();
-//                            allInputsIsValid = true;
-//                        } catch (InputMismatchException e) {
-//                            System.out.println("That wasn't a number!");
-//                            allInputsIsValid = false;
-//                        } catch (Exception e) {
-//                            System.out.println("Something went wrong.");
-//                            allInputsIsValid = false;
-//                        } finally {
-//                            scanner.nextLine();
-//                        }
-//                    }while (!allInputsIsValid);
-
-
-//                    if (allInputsIsValid){
-//                        do {
-//                            try {
-//                                System.out.print("Enter the second number: ");
-//                                secondNum = scanner.nextDouble();
-//                                allInputsIsValid = true;
-//                            } catch (InputMismatchException e) {
-//                                System.out.println("That wasn't a number!");
-//                                allInputsIsValid = false;
-//                            } catch (Exception e) {
-//                                System.out.println("Something went wrong.");
-//                                allInputsIsValid = false;
-//                            } finally {
-//                                scanner.nextLine();
-//                            }
-//                        }while (!allInputsIsValid);
-//
-//                    }
-
-//                    if (allInputsIsValid) {
-//                        do {
-//                                System.out.print("Type in an operator ('+', '-', '*', '/'): ");
-//                                operator = scanner.next().charAt(0);
-//                                if (operator == '+' || operator == '-' || operator == '/' || operator == '*'){
-//                                    allInputsIsValid = true;
-//                                    scanner.nextLine();
-//                                }
-//                                else {
-//                                    allInputsIsValid = false;
-//                                    System.out.println("That wasn't a valid operator!");
-//                                    scanner.nextLine();
-//                                }
-//                        }while (!allInputsIsValid);
-//                    }
-
-//                    try {
-//                        sum = makeCalculation(firstNum, secondNum, sum, operator);
-//                        System.out.println(firstNum + " " + operator + " " + secondNum + " = " + sum);
-//                    } catch (ArithmeticException e) {
-//                        System.out.println("YOU CAN'T DIVIDE BY ZERO!");
-//                    }
-
-                } else if (choiceContinueProgram.equals("no")) {
+                } else if (continueCalculate.equals("no")) {
                     shouldContinue = false;
-                    System.out.println("Exit Calculator");
+                    System.out.println();
+                    System.out.println("""
+                            *******************
+                            Exit Calculator...
+                            *******************
+                            """);
                 } else {
-                    System.out.println("Write either 'yes' or 'no'");
+                    System.out.println();
+                    System.out.println("************************************************************************");
+                    System.out.println("Write EITHER 'yes' or 'no'");
+                    System.out.println("************************************************************************");
+                    System.out.println();
+                    System.out.print("Do you wish to continue calculate? Type 'yes'/'no': ");
+                    continueCalculate = scanner.nextLine();
+//                    System.out.println(continueCalculate);
+                    if (continueCalculate.equals("yes")){
+//                        System.out.println();
+                        System.out.println("************************************************************************");
+                        System.out.print("Do you wish to apply calculation to the result (" + sum + ")? Type 'yes'/'no': ");
+                        addPreviousSum = scanner.nextLine();
+                        System.out.println("************************************************************************");
+
+                    }
                 }
-            }catch (InputMismatchException e){
-                System.out.println("Write either yes or no");
-            }
         }while (shouldContinue);
     }
 
@@ -122,11 +90,7 @@ public class Main {
                 return n1 * n2;
             }
             case '/' -> {
-                if (n2 == 0) {
-                    throw new ArithmeticException("Division by zero is not allowed");
-                } else {
                     return n1 / n2;
-                }
             }
         }
         return sum;
@@ -135,14 +99,16 @@ public class Main {
     static double selectNumber(char operator) {
         double num = 0;
         Scanner scanner = new Scanner(System.in);
-        boolean InputIsValid = true;
+        boolean InputIsValid;
         do {
             try {
-                System.out.print("Enter the number: ");
+                System.out.print("Enter number: ");
                 num = scanner.nextDouble();
                 InputIsValid = true;
             } catch (InputMismatchException e) {
+                System.out.println("**********************");
                 System.out.println("That wasn't a number!");
+                System.out.println("**********************");
                 InputIsValid = false;
             } catch (Exception e) {
                 System.out.println("Something went wrong.");
