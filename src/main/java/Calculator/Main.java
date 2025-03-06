@@ -124,7 +124,8 @@ public class Main {
                 }
             }
         } while (!InputIsValid);
-
+        
+        scanner.close();
         return num;
     }
 
@@ -146,6 +147,8 @@ public class Main {
                 scanner.nextLine();
             }
         } while (!InputIsValid);
+        
+        scanner.close();
         return operator;
     }
 }
