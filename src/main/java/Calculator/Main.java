@@ -29,10 +29,10 @@ public class Main {
                         firstNum = sum;
                     }
                     else{
-                        firstNum = selectNumber(operator);
+                        firstNum = selectNumber(scanner, operator);
                     }
-                    operator = selectOperator();
-                    secondNum = selectNumber(operator);
+                    operator = selectOperator(scanner);
+                    secondNum = selectNumber(scanner, operator);
                     sum = makeCalculation(firstNum, secondNum, sum, operator);
                     System.out.println("************************************************************************");
                     System.out.println(firstNum + " " + operator + " " + secondNum + " = " + sum);
@@ -53,7 +53,7 @@ public class Main {
                     System.out.println();
                     System.out.println("""
                             *******************
-                            Exit Calculator...
+                            Have a nice day 🤖
                             *******************
                             """);
                 } else {
@@ -96,9 +96,8 @@ public class Main {
         return sum;
     }
 
-    static double selectNumber(char operator) {
+    static double selectNumber(Scanner scanner, char operator) {
         double num = 0;
-        Scanner scanner = new Scanner(System.in);
         boolean InputIsValid;
         do {
             try {
@@ -124,14 +123,12 @@ public class Main {
                 }
             }
         } while (!InputIsValid);
-        
-        scanner.close();
+
         return num;
     }
 
-    static char selectOperator() {
+    static char selectOperator(Scanner scanner) {
 
-        Scanner scanner = new Scanner(System.in);
         boolean InputIsValid;
         char operator = ' ';
 
@@ -147,8 +144,7 @@ public class Main {
                 scanner.nextLine();
             }
         } while (!InputIsValid);
-        
-        scanner.close();
+
         return operator;
     }
 }
